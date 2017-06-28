@@ -1,0 +1,47 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/dbReference" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/dbReference" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="XxasfSampleRecord1Collection" type="XxasfSampleRecord1Collection"/>
+   <xs:complexType name="XxasfSampleRecord1Collection">
+      <xs:sequence>
+         <xs:element name="XxasfSampleRecord1" type="XxasfSampleRecord1" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxasfSampleRecord1">
+      <xs:sequence>
+         <xs:element name="cPk" type="string50" nillable="true"/>
+         <xs:element name="c2" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c5" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c6" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c7" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c8" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c9" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="xxasfSampleRecord2Collection" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="XxasfSampleRecord2" type="XxasfSampleRecord2" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="XxasfSampleRecord2">
+      <xs:sequence>
+         <xs:element name="c2" type="string50" nillable="true"/>
+         <xs:element name="c3" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c4" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c5" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c6" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c7" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c8" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c9" type="string50" minOccurs="0" nillable="true"/>
+         <xs:element name="c10" type="string50" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string50">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="50"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer
+
+  Created: Thu Apr 06 10:41:51 EDT 2017
+  Author:  assou
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELProcess1"
+               targetNamespace="http://xmlns.oracle.com/SOAComplexCsvTest/SOAComplexCsvTest/BPELProcess1"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOAComplexCsvTest/SOAComplexCsvTest/BPELProcess1"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/file/SOAComplexCsvTest/SOAComplexCsvTest/fileService"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/SOAComplexCsvTest/SOAComplexCsvTest/dbReference">
+
+  <!--
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC
+     Set of activities coordinating the flow of messages across the
+     services integrated within this business process
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/file/SOAComplexCsvTest/SOAComplexCsvTest/fileService"
+          location="../WSDLs/fileService.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="fileService" partnerLinkType="ns1:Read_plt" myRole="Read_role"/>
+    <partnerLink name="dbReference" partnerLinkType="ns2:dbReference_plt" partnerRole="dbReference_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="Receive1_Read_InputVariable" messageType="ns1:Read_msg"/>
+    <variable name="Invoke1_insert_InputVariable" messageType="ns2:XxasfSampleRecord1Collection_msg"/>
+    <variable name="Invoke1_insert_OutputVariable" messageType="ns2:XxasfSampleRecord1Collection_msg"/>
+  </variables>
+  <sequence name="main">
+    <receive name="ReceiveFile" partnerLink="fileService" portType="ns1:Read_ptt" operation="Read"
+             variable="Receive1_Read_InputVariable" createInstance="yes"/>
+    <assign name="xformFileToDB">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/Transformation1_1.xsl", $Receive1_Read_InputVariable.body)</from>
+        <to variable="Invoke1_insert_InputVariable" part="XxasfSampleRecord1Collection"/>
+      </copy>
+    </assign>
+    <invoke name="InvokeDBInsert" partnerLink="dbReference" portType="ns2:dbReference_ptt"
+            operation="insert" inputVariable="Invoke1_insert_InputVariable"
+            outputVariable="Invoke1_insert_OutputVariable" bpelx:invokeAsDetail="no"/>
+  </sequence>
+</process>
